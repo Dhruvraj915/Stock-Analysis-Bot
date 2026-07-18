@@ -1,0 +1,38 @@
+{
+  "name": "nse-positional-research",
+  "version": "1.0.0",
+  "description": "Personal NSE stock research & tracking system for medium-term positional investing (2-3+ month holds). Daily scoring, Telegram delivery, self-tracking pick ledger, weekly performance summary, and backtesting.",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "rimraf dist && tsc",
+    "start": "node dist/main.js",
+    "daily": "node dist/main.js",
+    "weekly-summary": "node dist/weeklySummary.js",
+    "backtest": "node dist/backtest.js",
+    "dev:daily": "ts-node src/main.ts",
+    "dev:weekly": "ts-node src/weeklySummary.ts",
+    "dev:backtest": "ts-node src/backtest.ts",
+    "test": "ts-node src/scoring.test.ts",
+    "test:telegram": "ts-node src/testTelegram.ts"
+  },
+  "keywords": [
+    "nse",
+    "stock-market",
+    "positional-investing",
+    "telegram",
+    "backtesting",
+    "typescript"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "yahoo-finance2": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "rimraf": "^5.0.7",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}

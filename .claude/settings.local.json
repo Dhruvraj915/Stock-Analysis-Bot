@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm cache *)",
+      "Bash(rm -f yf.tgz)",
+      "Bash(curl -s --max-time 480 -o yf.tgz https://registry.npmjs.org/yahoo-finance2/-/yahoo-finance2-2.14.0.tgz)",
+      "Bash(tar tzf *)",
+      "Bash(xargs -n1 basename)"
+    ]
+  }
+}

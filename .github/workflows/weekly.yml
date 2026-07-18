@@ -1,0 +1,52 @@
+name: Weekly Performance Summary
+
+# Runs Sunday at 13:00 UTC == 18:30 IST (Sunday evening).
+on:
+  schedule:
+    - cron: "0 13 * * 0"
+  workflow_dispatch: {}
+
+# Needed so the refreshed marked-to-market ledger can be committed back.
+permissions:
+  contents: write
+
+concurrency:
+  group: weekly-summary
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Send weekly summary
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: npm run weekly-summary
+
+      - name: Commit refreshed ledger
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/ledger.json
+          if git diff --staged --quiet; then
+            echo "No ledger changes to commit."
+          else
+            git commit -m "chore(ledger): weekly refresh [skip ci]"
+            git push
+          fi
