@@ -14,7 +14,10 @@
     "target": 2054.02,
     "stopLoss": 1583.7,
     "suggestedHoldingDays": 90,
-    "status": "OPEN"
+    "status": "STILL_OPEN",
+    "lastCheckedDate": "2026-07-18",
+    "lastCheckedPrice": 1932.6,
+    "returnPct": 0
   },
   {
     "id": "2026-07-18:NESTLEIND.NS",
@@ -31,7 +34,10 @@
     "target": 1538.79,
     "stopLoss": 1159.4,
     "suggestedHoldingDays": 90,
-    "status": "OPEN"
+    "status": "STILL_OPEN",
+    "lastCheckedDate": "2026-07-18",
+    "lastCheckedPrice": 1427.2,
+    "returnPct": 0
   },
   {
     "id": "2026-07-18:COALINDIA.NS",
@@ -48,7 +54,10 @@
     "target": 491.25,
     "stopLoss": 406.6,
     "suggestedHoldingDays": 90,
-    "status": "OPEN"
+    "status": "STILL_OPEN",
+    "lastCheckedDate": "2026-07-18",
+    "lastCheckedPrice": 427.65,
+    "returnPct": 0
   },
   {
     "id": "2026-07-18:JSWSTEEL.NS",
@@ -65,7 +74,10 @@
     "target": 1335.23,
     "stopLoss": 1102.5,
     "suggestedHoldingDays": 90,
-    "status": "OPEN"
+    "status": "STILL_OPEN",
+    "lastCheckedDate": "2026-07-18",
+    "lastCheckedPrice": 1237.3,
+    "returnPct": 0
   },
   {
     "id": "2026-07-18:BAJFINANCE.NS",
@@ -82,7 +94,10 @@
     "target": 1152.04,
     "stopLoss": 787.9,
     "suggestedHoldingDays": 90,
-    "status": "OPEN"
+    "status": "STILL_OPEN",
+    "lastCheckedDate": "2026-07-18",
+    "lastCheckedPrice": 1056.3,
+    "returnPct": 0
   },
   {
     "id": "2026-07-18:LUPIN.NS",
@@ -99,7 +114,10 @@
     "target": 2633.82,
     "stopLoss": 2078.2,
     "suggestedHoldingDays": 120,
-    "status": "OPEN"
+    "status": "STILL_OPEN",
+    "lastCheckedDate": "2026-07-18",
+    "lastCheckedPrice": 2443.2,
+    "returnPct": 0
   },
   {
     "id": "2026-07-18:CUMMINSIND.NS",
@@ -116,7 +134,10 @@
     "target": 6100,
     "stopLoss": 3883.1,
     "suggestedHoldingDays": 120,
-    "status": "OPEN"
+    "status": "STILL_OPEN",
+    "lastCheckedDate": "2026-07-18",
+    "lastCheckedPrice": 5448,
+    "returnPct": 0
   },
   {
     "id": "2026-07-18:OBEROIRLTY.NS",
@@ -133,7 +154,10 @@
     "target": 2108.41,
     "stopLoss": 1391.2,
     "suggestedHoldingDays": 120,
-    "status": "OPEN"
+    "status": "STILL_OPEN",
+    "lastCheckedDate": "2026-07-18",
+    "lastCheckedPrice": 1894.8,
+    "returnPct": 0
   },
   {
     "id": "2026-07-18:FEDERALBNK.NS",
@@ -150,7 +174,10 @@
     "target": 380.18,
     "stopLoss": 253.3,
     "suggestedHoldingDays": 120,
-    "status": "OPEN"
+    "status": "STILL_OPEN",
+    "lastCheckedDate": "2026-07-18",
+    "lastCheckedPrice": 349,
+    "returnPct": 0
   },
   {
     "id": "2026-07-18:BANDHANBNK.NS",
@@ -167,7 +194,10 @@
     "target": 241.87,
     "stopLoss": 140.7,
     "suggestedHoldingDays": 120,
-    "status": "OPEN"
+    "status": "STILL_OPEN",
+    "lastCheckedDate": "2026-07-18",
+    "lastCheckedPrice": 213.25,
+    "returnPct": 0
   },
   {
     "id": "2026-07-18:ELGIEQUIP.NS",
@@ -184,7 +214,10 @@
     "target": 652.09,
     "stopLoss": 416.25,
     "suggestedHoldingDays": 150,
-    "status": "OPEN"
+    "status": "STILL_OPEN",
+    "lastCheckedDate": "2026-07-18",
+    "lastCheckedPrice": 581.7,
+    "returnPct": 0
   },
   {
     "id": "2026-07-18:SHILPAMED.NS",
@@ -201,7 +234,10 @@
     "target": 716.28,
     "stopLoss": 259.5,
     "suggestedHoldingDays": 150,
-    "status": "OPEN"
+    "status": "STILL_OPEN",
+    "lastCheckedDate": "2026-07-18",
+    "lastCheckedPrice": 620.25,
+    "returnPct": 0
   },
   {
     "id": "2026-07-18:KAJARIACER.NS",
@@ -218,7 +254,10 @@
     "target": 1357.15,
     "stopLoss": 869.6,
     "suggestedHoldingDays": 150,
-    "status": "OPEN"
+    "status": "STILL_OPEN",
+    "lastCheckedDate": "2026-07-18",
+    "lastCheckedPrice": 1239.5,
+    "returnPct": 0
   },
   {
     "id": "2026-07-18:RADICO.NS",
@@ -235,7 +274,10 @@
     "target": 4447.74,
     "stopLoss": 2500,
     "suggestedHoldingDays": 150,
-    "status": "OPEN"
+    "status": "STILL_OPEN",
+    "lastCheckedDate": "2026-07-18",
+    "lastCheckedPrice": 4097.9,
+    "returnPct": 0
   },
   {
     "id": "2026-07-18:JBCHEPHARM.NS",
@@ -252,6 +294,9 @@
     "target": 2624.61,
     "stopLoss": 1775.8,
     "suggestedHoldingDays": 150,
-    "status": "OPEN"
+    "status": "STILL_OPEN",
+    "lastCheckedDate": "2026-07-18",
+    "lastCheckedPrice": 2416.1,
+    "returnPct": 0.3
   }
 ]
