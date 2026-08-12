@@ -18,6 +18,7 @@ import { UNIVERSE } from "./config";
 import { fetchUniverse, fetchLatestPrices } from "./dataFetcher";
 import { analyzeAll, flattenPicks } from "./analyzer";
 import {
+  isActive,
   isoDate,
   loadLedger,
   logPicks,
@@ -35,7 +36,9 @@ async function main(): Promise<void> {
   const active = [...openTickers(ledger)];
   let statusResult;
   if (active.length > 0) {
-    console.log(`Checking ${active.length} open pick(s) for target/stop/expiry...`);
+    console.log(
+      `Checking ${active.length} open pick(s) for target/stop/expiry...`,
+    );
     const prices = await fetchLatestPrices(active);
     statusResult = updateStatuses(prices);
     console.log(
@@ -57,14 +60,33 @@ async function main(): Promise<void> {
   const allPicks: ScoredStock[] = flattenPicks(picksByCategory);
   console.log(`\nSelected ${allPicks.length} picks across categories.`);
 
+  // Snapshot which tickers were ALREADY open before today's picks are logged,
+  // so the message can tell fresh ideas apart from existing holds.
+  const preExistingOpenTickers = openTickers(loadLedger());
+
   // --- 3. Log new picks (skip tickers already OPEN) ----------------------
   const added = logPicks(allPicks, today);
-  console.log(`Logged ${added.length} NEW pick(s) to ledger (skipped already-open).`);
+  console.log(
+    `Logged ${added.length} NEW pick(s) to ledger (skipped already-open).`,
+  );
 
   // --- 4. Send the combined daily Telegram message -----------------------
-  const message = buildDailyMessage(picksByCategory, today, statusResult);
+  const activeLedgerByTicker = new Map(
+    loadLedger()
+      .filter((e) => isActive(e.status))
+      .map((e) => [e.ticker, e]),
+  );
+  const message = buildDailyMessage(
+    picksByCategory,
+    today,
+    statusResult,
+    preExistingOpenTickers,
+    activeLedgerByTicker,
+  );
   await sendMessage(message);
-  console.log("\nDaily run complete. Telegram message sent (or printed in DRY_RUN).\n");
+  console.log(
+    "\nDaily run complete. Telegram message sent (or printed in DRY_RUN).\n",
+  );
 }
 
 main().catch((err) => {

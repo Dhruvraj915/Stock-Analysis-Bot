@@ -7,13 +7,9 @@
  * DRY_RUN=true to format + print messages to the console without sending.
  */
 
-import {
-  CapCategory,
-  LedgerEntry,
-  ScoredStock,
-} from "./types";
+import { CapCategory, LedgerEntry, ScoredStock } from "./types";
 import { DISCLAIMER } from "./config";
-import { StatusCheckResult } from "./ledger";
+import { daysBetween, StatusCheckResult } from "./ledger";
 
 const TELEGRAM_MAX_CHARS = 4096;
 
@@ -92,7 +88,9 @@ export async function sendMessage(text: string): Promise<void> {
     );
     if (!res.ok) {
       const body = await res.text().catch(() => "");
-      throw new Error(`Telegram send failed: ${res.status} ${res.statusText} ${body}`);
+      throw new Error(
+        `Telegram send failed: ${res.status} ${res.statusText} ${body}`,
+      );
     }
   }
 }
@@ -119,10 +117,31 @@ export function splitForTelegram(text: string): string[] {
 //  Message builders
 // ---------------------------------------------------------------------------
 
-/** One pick, formatted as a compact multi-line block. */
-function formatPick(p: ScoredStock, rank: number): string {
+/**
+ * One pick, formatted as a compact multi-line block.
+ * `heldEntry` is the pick's active ledger row if it was already open before
+ * today's run (a HELD position); undefined means it's a fresh NEW idea.
+ */
+function formatPick(
+  p: ScoredStock,
+  rank: number,
+  dateIso: string,
+  heldEntry?: LedgerEntry,
+): string {
   const flag = p.fundamentalsMissing ? " ⚠️fund?" : "";
+  let tag: string;
+  if (heldEntry) {
+    const age = daysBetween(heldEntry.date, dateIso);
+    const sinceEntryPct =
+      ((p.levels.currentPrice - heldEntry.entryReference) /
+        heldEntry.entryReference) *
+      100;
+    tag = `📌 HELD day ${age}/${heldEntry.suggestedHoldingDays} (${fmtPct(sinceEntryPct)} since entry)`;
+  } else {
+    tag = "🆕 NEW";
+  }
   return [
+    `${tag}`,
     `<b>${rank}. ${esc(p.ticker.replace(".NS", ""))}</b> — ${esc(p.name)}${flag}`,
     `   Score <b>${p.compositeScore.toFixed(1)}</b> (T ${(p.technical.score * 100).toFixed(0)} / F ${(p.fundamental.score * 100).toFixed(0)})`,
     `   Price ₹${fmt(p.levels.currentPrice)} | Entry ₹${fmt(p.levels.entryLow)}–₹${fmt(p.levels.entryHigh)}`,
@@ -133,11 +152,19 @@ function formatPick(p: ScoredStock, rank: number): string {
 /**
  * Build the full daily message: optional status-check summary at top, then the
  * top picks per category, then the disclaimer.
+ *
+ * `preExistingOpenTickers` is the set of tickers that already had an active
+ * ledger position BEFORE today's picks were logged — used to tag each pick
+ * as 🆕 NEW or 📌 HELD instead of re-presenting existing holds as if they
+ * were fresh ideas. `activeLedgerByTicker` supplies the entry date/price for
+ * HELD picks (age + return-since-entry).
  */
 export function buildDailyMessage(
   picksByCategory: Record<CapCategory, ScoredStock[]>,
   dateIso: string,
   statusResult?: StatusCheckResult,
+  preExistingOpenTickers: Set<string> = new Set(),
+  activeLedgerByTicker: Map<string, LedgerEntry> = new Map(),
 ): string {
   const parts: string[] = [];
   parts.push(`📊 <b>NSE Positional Picks — ${dateIso}</b>`);
@@ -147,11 +174,14 @@ export function buildDailyMessage(
   if (statusResult) {
     parts.push("");
     if (statusResult.transitions.length === 0) {
-      parts.push(`🔁 Ledger: ${statusResult.checked} open pick(s) checked, no status changes.`);
+      parts.push(
+        `🔁 Ledger: ${statusResult.checked} open pick(s) checked, no status changes.`,
+      );
     } else {
       parts.push(`🔁 <b>Ledger updates</b> (${statusResult.checked} checked):`);
       for (const t of statusResult.transitions) {
-        const icon = t.to === "HIT_TARGET" ? "✅" : t.to === "HIT_STOPLOSS" ? "❌" : "⌛";
+        const icon =
+          t.to === "HIT_TARGET" ? "✅" : t.to === "HIT_STOPLOSS" ? "❌" : "⌛";
         parts.push(
           `   ${icon} ${esc(t.ticker.replace(".NS", ""))} → ${t.to} @ ₹${fmt(t.price)} (${fmtPct(t.returnPct)})`,
         );
@@ -160,6 +190,16 @@ export function buildDailyMessage(
   }
 
   const cats: CapCategory[] = ["largecap", "midcap", "smallcap"];
+  const allPicks = cats.flatMap((cat) => picksByCategory[cat]);
+  const newCount = allPicks.filter(
+    (p) => !preExistingOpenTickers.has(p.ticker),
+  ).length;
+  const heldCount = allPicks.length - newCount;
+  parts.push("");
+  parts.push(
+    `🆕 ${newCount} new idea${newCount === 1 ? "" : "s"} today · 📌 ${heldCount} hold${heldCount === 1 ? "" : "s"}`,
+  );
+
   for (const cat of cats) {
     const picks = picksByCategory[cat];
     parts.push("");
@@ -168,7 +208,12 @@ export function buildDailyMessage(
       parts.push("   (no qualifying stocks today)");
       continue;
     }
-    picks.forEach((p, i) => parts.push(formatPick(p, i + 1)));
+    picks.forEach((p, i) => {
+      const heldEntry = preExistingOpenTickers.has(p.ticker)
+        ? activeLedgerByTicker.get(p.ticker)
+        : undefined;
+      parts.push(formatPick(p, i + 1, dateIso, heldEntry));
+    });
   }
 
   parts.push("");
@@ -204,7 +249,8 @@ export function buildWeeklyMessage(
 
   const block = (label: string, s: CategoryStats): string[] => {
     if (s.total === 0) return [`${label}: no picks in window.`];
-    const winRate = s.winRatePct == null ? "n/a" : `${s.winRatePct.toFixed(0)}%`;
+    const winRate =
+      s.winRatePct == null ? "n/a" : `${s.winRatePct.toFixed(0)}%`;
     const avgClosed =
       s.avgReturnClosedPct == null ? "n/a" : fmtPct(s.avgReturnClosedPct);
     const avgOpen =
