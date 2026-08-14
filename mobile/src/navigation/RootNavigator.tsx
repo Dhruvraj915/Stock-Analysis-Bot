@@ -6,7 +6,6 @@ import {
 } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import AboutScreen from '@/screens/AboutScreen';
 import StockDetailScreen from '@/screens/StockDetailScreen';
 import TabNavigator from '@/navigation/TabNavigator';
 import { useColorScheme } from '@/components/useColorScheme';
@@ -19,14 +18,19 @@ export default function RootNavigator() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <NavigationContainer theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <NavigationContainer
+        theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+      >
         <Stack.Navigator>
-          <Stack.Screen name="Tabs" component={TabNavigator} options={{ headerShown: false }} />
-          <Stack.Screen name="StockDetail" component={StockDetailScreen} options={{ title: '' }} />
           <Stack.Screen
-            name="About"
-            component={AboutScreen}
-            options={{ presentation: 'modal', title: 'About' }}
+            name="Tabs"
+            component={TabNavigator}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="StockDetail"
+            component={StockDetailScreen}
+            options={{ title: '' }}
           />
         </Stack.Navigator>
       </NavigationContainer>

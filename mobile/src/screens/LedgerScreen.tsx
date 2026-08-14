@@ -12,10 +12,12 @@ import { EmptyState, ErrorState, LoadingState } from '@/components/ScreenState';
 import { StatusStackedBar } from '@/components/StatusStackedBar';
 import { Text, View } from '@/components/Themed';
 import { fetchLedger } from '@/lib/data';
-import { CATEGORY_LABEL, STATUS_LABEL } from '@/lib/format';
+import { CATEGORY_LABEL, HORIZON_LABEL, STATUS_LABEL } from '@/lib/format';
 import {
   CapCategory,
   CAP_CATEGORIES,
+  HoldingHorizon,
+  HOLDING_HORIZONS,
   LedgerEntry,
   PickStatus,
 } from '@/lib/types';
@@ -34,16 +36,18 @@ export default function LedgerScreen() {
   const colors = useThemeColors();
   const loader = useCallback(fetchLedger, []);
   const { state, refreshing, refresh } = useAsyncData<LedgerEntry[]>(loader);
+  const [horizon, setHorizon] = useState<HoldingHorizon | null>(null);
   const [category, setCategory] = useState<CapCategory | null>(null);
   const [status, setStatus] = useState<PickStatus | null>(null);
 
   const filtered = useMemo(() => {
     if (state.status !== 'ready') return [];
     return state.data
+      .filter(e => (horizon ? (e.horizon ?? 'positional') === horizon : true))
       .filter(e => (category ? e.category === category : true))
       .filter(e => (status ? e.status === status : true))
       .sort((a, b) => (a.date < b.date ? 1 : -1));
-  }, [state, category, status]);
+  }, [state, horizon, category, status]);
 
   if (state.status === 'loading') return <LoadingState />;
   if (state.status === 'error')
@@ -64,23 +68,45 @@ export default function LedgerScreen() {
       }
       ListHeaderComponent={
         <>
-          <Text style={styles.heading}>Full ledger</Text>
+          <Text style={styles.heading}>Full Trade Ledger</Text>
           <Text style={[styles.subheading, { color: colors.textSecondary }]}>
-            {state.data.length} picks logged since tracking began
+            {state.data.length} historical picks across all strategies and time horizons
           </Text>
 
-          <View style={[styles.section, { borderColor: colors.border }]}>
-            <Text style={styles.sectionTitle}>Outcomes by category</Text>
+          <View style={[styles.section, { borderColor: colors.border, backgroundColor: colors.surface }]}>
+            <Text style={styles.sectionTitle}>Outcomes by Category</Text>
             <StatusStackedBar entries={state.data} />
           </View>
 
+          {/* Horizon Filters */}
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
             style={styles.filterRow}
           >
             <FilterChip
-              label="All categories"
+              label="All Horizons"
+              active={horizon === null}
+              onPress={() => setHorizon(null)}
+            />
+            {HOLDING_HORIZONS.map(h => (
+              <FilterChip
+                key={h}
+                label={HORIZON_LABEL[h]}
+                active={horizon === h}
+                onPress={() => setHorizon(h)}
+              />
+            ))}
+          </ScrollView>
+
+          {/* Category Filters */}
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.filterRow}
+          >
+            <FilterChip
+              label="All Categories"
               active={category === null}
               onPress={() => setCategory(null)}
             />
@@ -93,13 +119,15 @@ export default function LedgerScreen() {
               />
             ))}
           </ScrollView>
+
+          {/* Status Filters */}
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
             style={styles.filterRow}
           >
             <FilterChip
-              label="All statuses"
+              label="All Statuses"
               active={status === null}
               onPress={() => setStatus(null)}
             />
@@ -113,8 +141,8 @@ export default function LedgerScreen() {
             ))}
           </ScrollView>
 
-          <Text style={[styles.sectionTitle, { marginTop: 8 }]}>
-            {filtered.length} picks
+          <Text style={[styles.sectionTitle, { marginTop: 10, marginBottom: 4 }]}>
+            Showing {filtered.length} {filtered.length === 1 ? 'Pick' : 'Picks'}
           </Text>
         </>
       }

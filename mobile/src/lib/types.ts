@@ -8,6 +8,10 @@ export type CapCategory = 'largecap' | 'midcap' | 'smallcap';
 
 export const CAP_CATEGORIES: CapCategory[] = ['largecap', 'midcap', 'smallcap'];
 
+export type HoldingHorizon = 'swing' | 'positional' | 'longterm';
+
+export const HOLDING_HORIZONS: HoldingHorizon[] = ['swing', 'positional', 'longterm'];
+
 export type PickStatus =
   | 'OPEN'
   | 'HIT_TARGET'
@@ -21,6 +25,7 @@ export interface LedgerEntry {
   ticker: string;
   name: string;
   category: CapCategory;
+  horizon?: HoldingHorizon;
   compositeScore: number;
   technicalScore: number;
   fundamentalScore: number;
@@ -30,6 +35,7 @@ export interface LedgerEntry {
   target: number;
   stopLoss: number;
   suggestedHoldingDays: number;
+  riskRewardRatio?: number;
   status: PickStatus;
   resolvedDate?: string;
   resolvedPrice?: number;
