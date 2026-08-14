@@ -21,6 +21,7 @@ import {
   CapCategory,
   FundamentalBreakdown,
   Fundamentals,
+  HoldingHorizon,
   ScoredStock,
   StockData,
   TechnicalBreakdown,
@@ -29,19 +30,19 @@ import {
 import {
   atr,
   closesOf,
+  macd,
   momentum,
+  nearHigh,
   rsi,
   sma,
   supportResistance,
+  volumeRatio,
 } from "./indicators";
 import {
-  COMPOSITE_WEIGHTS,
   FUNDAMENTAL_CURVES,
   FUNDAMENTAL_WEIGHTS,
+  HORIZON_PROFILES,
   NEUTRAL_SCORE,
-  TECHNICAL_PARAMS,
-  TECHNICAL_WEIGHTS,
-  TRADE_PARAMS,
 } from "./config";
 
 // ---------------------------------------------------------------------------
@@ -86,48 +87,87 @@ function softStep(relDistance: number, scale = 0.15): number {
 /**
  * Compute the technical sub-score from a chronological candle series.
  * Any indicator that can't be computed (insufficient data) degrades to a
- * neutral 0.5 for that component rather than throwing.
+ * neutral score for that component rather than throwing.
  */
-export function scoreTechnical(candles: Candle[]): TechnicalBreakdown {
+export function scoreTechnical(
+  candles: Candle[],
+  horizon: HoldingHorizon = "positional"
+): TechnicalBreakdown {
+  const profile = HORIZON_PROFILES[horizon] ?? HORIZON_PROFILES.positional;
+  const p = profile.technicalParams;
+  const w = profile.technicalWeights;
+
   const closes = closesOf(candles);
   const price = closes[closes.length - 1];
 
-  const sma50 = sma(closes, TECHNICAL_PARAMS.smaShortPeriod);
-  const sma200 = sma(closes, TECHNICAL_PARAMS.smaLongPeriod);
+  const smaShort = sma(closes, p.smaShortPeriod);
+  const smaLong = sma(closes, p.smaLongPeriod);
 
-  // --- Trend component (price vs 50/200 SMA + golden cross) ---
-  const vs50 = sma50 != null ? softStep(price / sma50 - 1) : NEUTRAL_SCORE;
-  const vs200 = sma200 != null ? softStep(price / sma200 - 1) : NEUTRAL_SCORE;
+  // --- Trend component (price vs Short/Long SMA + cross) ---
+  const vsShort = smaShort != null ? softStep(price / smaShort - 1) : NEUTRAL_SCORE;
+  const vsLong = smaLong != null ? softStep(price / smaLong - 1) : NEUTRAL_SCORE;
   const goldenCross =
-    sma50 != null && sma200 != null
-      ? softStep(sma50 / sma200 - 1)
+    smaShort != null && smaLong != null
+      ? softStep(smaShort / smaLong - 1)
       : NEUTRAL_SCORE;
-  // Weight the longer-term signals a touch more (they matter more for a
-  // multi-month hold): 50-SMA 30%, 200-SMA 35%, golden cross 35%.
-  const trend = vs50 * 0.3 + vs200 * 0.35 + goldenCross * 0.35;
 
-  // --- Momentum component (6-month return) ---
-  const mom = momentum(closes, TECHNICAL_PARAMS.momentumLookbackDays);
-  const momentumScore =
-    mom != null ? linScore(mom, -0.1, 0.3) : NEUTRAL_SCORE;
+  const trend = vsShort * 0.3 + vsLong * 0.35 + goldenCross * 0.35;
+
+  // --- Momentum component ---
+  const mom = momentum(closes, p.momentumLookbackDays);
+  const momentumScore = mom != null ? linScore(mom, -0.1, 0.3) : NEUTRAL_SCORE;
+
+  // --- MACD bonus (crossover / positive histogram) ---
+  const macdRes = macd(closes);
+  let macdBonus = NEUTRAL_SCORE;
+  if (macdRes != null) {
+    if (macdRes.macdLine > macdRes.signalLine) {
+      macdBonus = macdRes.histogram > 0 ? 0.8 : 0.65;
+    } else {
+      macdBonus = macdRes.histogram < 0 ? 0.2 : 0.35;
+    }
+  }
+
+  // --- 52-Week / multi-month high proximity ---
+  const highRatio = nearHigh(candles, Math.min(candles.length, 252));
+  const nearHighBonus = highRatio != null ? linScore(highRatio, 0.75, 0.98) : NEUTRAL_SCORE;
+
+  // --- Volume Gate / confirmation ---
+  let volumeGate = 1;
+  if (p.volumeConfirmation) {
+    const vr = volumeRatio(candles, 5, 20);
+    if (vr != null) {
+      if (vr >= 1.3) volumeGate = 1.05; // 5% boost for strong volume
+      else if (vr < 0.7) volumeGate = 0.92; // 8% penalty for thin dry volume
+    }
+  }
 
   // --- RSI gate (penalize chasing extremes only) ---
-  const rsiVal = rsi(closes, TECHNICAL_PARAMS.rsiPeriod);
+  const rsiVal = rsi(closes, p.rsiPeriod);
   let rsiGate = 1;
   if (rsiVal != null) {
-    if (
-      rsiVal >= TECHNICAL_PARAMS.rsiOverbought ||
-      rsiVal <= TECHNICAL_PARAMS.rsiOversold
-    ) {
-      rsiGate = 1 - TECHNICAL_PARAMS.rsiPenalty;
+    if (rsiVal >= p.rsiOverbought || rsiVal <= p.rsiOversold) {
+      rsiGate = 1 - p.rsiPenalty;
     }
   }
 
   const rawScore =
-    trend * TECHNICAL_WEIGHTS.trend + momentumScore * TECHNICAL_WEIGHTS.momentum;
-  const score = clamp01(rawScore * rsiGate);
+    trend * w.trend +
+    momentumScore * w.momentum +
+    macdBonus * w.macd +
+    nearHighBonus * w.nearHigh;
 
-  return { trend, momentum: momentumScore, rsiGate, score };
+  const score = clamp01(rawScore * rsiGate * volumeGate);
+
+  return {
+    trend,
+    momentum: momentumScore,
+    rsiGate,
+    macdBonus,
+    volumeGate,
+    nearHighBonus,
+    score,
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -217,36 +257,37 @@ export function scoreFundamental(f: Fundamentals): FundamentalBreakdown {
 // ---------------------------------------------------------------------------
 
 /**
- * Derive entry band, target and stop from ATR + medium-term support/
- * resistance. All levels are sanity-clamped so that:
+ * Derive entry band, target and stop from ATR + support/resistance.
+ * All levels are sanity-clamped so that:
  *   stopLoss < entryLow <= currentPrice <= entryHigh < target, all > 0.
  */
 export function computeTradeLevels(
   candles: Candle[],
   category: CapCategory,
+  horizon: HoldingHorizon = "positional"
 ): TradeLevels {
+  const profile = HORIZON_PROFILES[horizon] ?? HORIZON_PROFILES.positional;
+  const tp = profile.tradeParams;
   const price = candles[candles.length - 1].close;
 
-  // ATR with a sensible fallback (2% of price) if history is too short.
-  const atrVal = atr(candles, TRADE_PARAMS.atrPeriod) ?? price * 0.02;
+  // ATR with fallback (2% of price) if history is short
+  const atrVal = atr(candles, tp.atrPeriod) ?? price * 0.02;
 
   const { support, resistance } = supportResistance(
     candles,
-    TRADE_PARAMS.supportResistanceWindowDays,
+    tp.supportResistanceWindowDays,
   );
 
-  // Entry band around current price.
-  let entryLow = price - TRADE_PARAMS.entryBandAtrMult * atrVal;
-  let entryHigh = price + TRADE_PARAMS.entryBandAtrMult * atrVal;
+  // Entry band around current price
+  let entryLow = price - tp.entryBandAtrMult * atrVal;
+  let entryHigh = price + tp.entryBandAtrMult * atrVal;
 
-  // Target: ATR-based projection, aimed at least as high as medium-term
-  // resistance (we want room to run toward/through the prior high).
-  const atrTarget = price + TRADE_PARAMS.targetAtrMult * atrVal;
+  // Target: ATR-based projection, aimed at least as high as resistance
+  const atrTarget = price + tp.targetAtrMult * atrVal;
   let target = resistance != null ? Math.max(atrTarget, resistance) : atrTarget;
 
-  // Stop: ATR-based, extended DOWN to medium-term support if support sits
-  // below the ATR stop (gives the thesis room; never tighter than ATR stop).
-  const atrStop = price - TRADE_PARAMS.stopAtrMult * atrVal;
+  // Stop: ATR-based, extended down to support if support sits below ATR stop
+  const atrStop = price - tp.stopAtrMult * atrVal;
   let stopLoss = support != null ? Math.min(atrStop, support) : atrStop;
 
   // --- Sanity clamps ---
@@ -256,8 +297,11 @@ export function computeTradeLevels(
   target = Math.max(target, entryHigh * 1.01);
 
   const suggestedHoldingDays =
-    TRADE_PARAMS.holdingDaysByCategory[category] ??
-    TRADE_PARAMS.defaultHoldingDays;
+    tp.holdingDaysByCategory[category] ?? tp.defaultHoldingDays;
+
+  const risk = Math.max(0.01, price - stopLoss);
+  const reward = Math.max(0.01, target - price);
+  const riskRewardRatio = Math.round((reward / risk) * 100) / 100;
 
   return {
     currentPrice: price,
@@ -266,6 +310,8 @@ export function computeTradeLevels(
     target,
     stopLoss,
     suggestedHoldingDays,
+    horizon,
+    riskRewardRatio,
     atr: atrVal,
   };
 }
@@ -276,26 +322,28 @@ export function computeTradeLevels(
 
 /**
  * Score a full stock into a ScoredStock (composite 0..100 + diagnostics).
- * `candlesOverride` lets the backtester pass a historical slice; when omitted
- * we use the stock's full candle series.
+ * `candlesOverride` lets the backtester pass a historical slice.
  */
 export function scoreStock(
   data: StockData,
+  horizon: HoldingHorizon = "positional",
   candlesOverride?: Candle[],
 ): ScoredStock {
+  const profile = HORIZON_PROFILES[horizon] ?? HORIZON_PROFILES.positional;
   const candles = candlesOverride ?? data.candles;
-  const technical = scoreTechnical(candles);
+  const technical = scoreTechnical(candles, horizon);
   const fundamental = scoreFundamental(data.fundamentals);
-  const levels = computeTradeLevels(candles, data.category);
+  const levels = computeTradeLevels(candles, data.category, horizon);
 
   const composite01 =
-    fundamental.score * COMPOSITE_WEIGHTS.fundamental +
-    technical.score * COMPOSITE_WEIGHTS.technical;
+    fundamental.score * profile.compositeWeights.fundamental +
+    technical.score * profile.compositeWeights.technical;
 
   return {
     ticker: data.ticker,
     name: data.name,
     category: data.category,
+    horizon,
     compositeScore: Math.round(composite01 * 1000) / 10, // one decimal, 0..100
     technical,
     fundamental,
@@ -303,3 +351,4 @@ export function scoreStock(
     fundamentalsMissing: data.fundamentalsMissing,
   };
 }
+

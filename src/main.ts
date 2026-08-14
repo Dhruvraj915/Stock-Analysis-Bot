@@ -13,8 +13,8 @@
  */
 
 import "dotenv/config";
-import { CapCategory, ScoredStock, StockData } from "./types";
-import { UNIVERSE } from "./config";
+import { CapCategory, HoldingHorizon, ScoredStock, StockData } from "./types";
+import { HORIZON_PROFILES, UNIVERSE } from "./config";
 import { fetchUniverse, fetchLatestPrices } from "./dataFetcher";
 import { analyzeAll, flattenPicks } from "./analyzer";
 import {
@@ -29,7 +29,16 @@ import { buildDailyMessage, sendMessage } from "./telegramNotifier";
 
 async function main(): Promise<void> {
   const today = isoDate();
-  console.log(`\n=== NSE Positional Daily Run — ${today} ===\n`);
+  const rawHorizon = (process.env.HORIZON ?? "positional").toLowerCase();
+  const horizon: HoldingHorizon =
+    rawHorizon === "swing" || rawHorizon === "longterm"
+      ? rawHorizon
+      : "positional";
+  const profile = HORIZON_PROFILES[horizon];
+
+  console.log(
+    `\n=== NSE Stock Research Daily Run [${profile.displayName}] — ${today} ===\n`,
+  );
 
   // --- 1. Status-check existing OPEN picks -------------------------------
   const ledger = loadLedger();
@@ -56,7 +65,7 @@ async function main(): Promise<void> {
     smallcap: await fetchUniverse(UNIVERSE.smallcap, "smallcap"),
   };
 
-  const picksByCategory = analyzeAll(byCategory);
+  const picksByCategory = analyzeAll(byCategory, horizon);
   const allPicks: ScoredStock[] = flattenPicks(picksByCategory);
   console.log(`\nSelected ${allPicks.length} picks across categories.`);
 

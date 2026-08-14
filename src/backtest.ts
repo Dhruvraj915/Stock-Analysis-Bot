@@ -28,7 +28,7 @@
 import "dotenv/config";
 import * as fs from "fs";
 import * as path from "path";
-import { Candle, CapCategory, StockData } from "./types";
+import { Candle, CapCategory, HoldingHorizon, StockData } from "./types";
 import { UNIVERSE, BACKTEST_PARAMS, RANKING_PARAMS } from "./config";
 import { fetchUniverse } from "./dataFetcher";
 import { scoreStock, computeTradeLevels } from "./scoring";
@@ -66,9 +66,10 @@ function simulateTrade(
   candles: Candle[],
   entryIndex: number,
   category: CapCategory,
+  horizon: HoldingHorizon = "positional"
 ): { entryPrice: number; target: number; stopLoss: number; horizonDays: number; result: Omit<BacktestTrade, "ticker" | "category" | "entryDate" | "target" | "stopLoss" | "horizonDays" | "entryPrice"> } | null {
   const slice = candles.slice(0, entryIndex + 1);
-  const levels = computeTradeLevels(slice, category);
+  const levels = computeTradeLevels(slice, category, horizon);
   const entryPrice = levels.currentPrice;
   const entryDate = candles[entryIndex].date;
   const horizonDays = levels.suggestedHoldingDays;
@@ -130,6 +131,7 @@ function simulateTrade(
 function backtestCategory(
   stocks: StockData[],
   category: CapCategory,
+  horizon: HoldingHorizon = "positional"
 ): BacktestTrade[] {
   const trades: BacktestTrade[] = [];
   const eligible = stocks.filter(
@@ -151,7 +153,7 @@ function backtestCategory(
       .filter((s) => s.candles.length > d)
       .map((s) => {
         const slice = s.candles.slice(0, d + 1);
-        const scored = scoreStock(s, slice);
+        const scored = scoreStock(s, horizon, slice);
         return { stock: s, score: scored.compositeScore };
       })
       .sort((a, b) => b.score - a.score)
@@ -160,7 +162,7 @@ function backtestCategory(
     for (const { stock } of ranked) {
       // Find the index in THIS stock's series matching day d's date.
       const idx = Math.min(d, stock.candles.length - 1);
-      const sim = simulateTrade(stock.candles, idx, category);
+      const sim = simulateTrade(stock.candles, idx, category, horizon);
       if (!sim) continue;
       trades.push({
         entryDate: isoOf(stock.candles[idx].date),

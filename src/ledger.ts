@@ -87,8 +87,9 @@ export function logPicks(
 
   const added: LedgerEntry[] = [];
   for (const p of picks) {
-    const id = `${date}:${p.ticker}`;
-    if (alreadyOpen.has(p.ticker) || existingIds.has(id)) continue;
+    const horizon = p.horizon ?? "positional";
+    const id = `${date}:${p.ticker}:${horizon}`;
+    if (alreadyOpen.has(p.ticker) || existingIds.has(id) || existingIds.has(`${date}:${p.ticker}`)) continue;
 
     added.push({
       id,
@@ -96,6 +97,7 @@ export function logPicks(
       ticker: p.ticker,
       name: p.name,
       category: p.category,
+      horizon,
       compositeScore: p.compositeScore,
       technicalScore: Math.round(p.technical.score * 1000) / 10,
       fundamentalScore: Math.round(p.fundamental.score * 1000) / 10,
@@ -105,6 +107,7 @@ export function logPicks(
       target: round2(p.levels.target),
       stopLoss: round2(p.levels.stopLoss),
       suggestedHoldingDays: p.levels.suggestedHoldingDays,
+      riskRewardRatio: p.levels.riskRewardRatio,
       status: "OPEN",
     });
   }
@@ -137,7 +140,7 @@ export interface StatusCheckResult {
  *   3. Past suggested horizon  => EXPIRED_OPEN (closed at current price)
  *   4. Otherwise               => STILL_OPEN (marked-to-market, stays active)
  *
- * `asOf` is injectable for testing/backtests; defaults to now.
+ * For longterm picks, trailing stops are dynamically adjusted upward when in profit.
  */
 export function updateStatuses(
   currentPrices: Map<string, number>,
@@ -156,6 +159,14 @@ export function updateStatuses(
     const from = e.status;
     const ageDays = daysBetween(e.date, today);
     const returnPct = ((price - e.entryReference) / e.entryReference) * 100;
+
+    // Trailing stop for longterm holds: if price is > 15% in profit, trail stop 12% below highest checked price
+    if (e.horizon === "longterm" && returnPct > 15) {
+      const trailingStop = round2(price * 0.88);
+      if (trailingStop > e.stopLoss) {
+        e.stopLoss = trailingStop;
+      }
+    }
 
     let to: PickStatus;
     if (price >= e.target) {

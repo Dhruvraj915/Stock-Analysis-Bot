@@ -7,6 +7,11 @@
 /** Market-cap bucket a ticker belongs to. */
 export type CapCategory = "largecap" | "midcap" | "smallcap";
 
+/** Holding-horizon mode: swing (10-15d), positional (2-3m), longterm (1-2y). */
+export type HoldingHorizon = "swing" | "positional" | "longterm";
+
+export const HOLDING_HORIZONS: HoldingHorizon[] = ["swing", "positional", "longterm"];
+
 /** One entry in the curated stock universe (see config.ts). */
 export interface UniverseEntry {
   ticker: string; // Yahoo Finance symbol, e.g. "RELIANCE.NS"
@@ -50,8 +55,11 @@ export interface StockData {
 /** Breakdown of the technical sub-score (each component in 0..1). */
 export interface TechnicalBreakdown {
   trend: number; // Price vs 50/200 SMA + golden cross
-  momentum: number; // 6-month momentum
+  momentum: number; // Momentum (lookback based on horizon)
   rsiGate: number; // 1 = fine, <1 = penalized for overbought/oversold entry
+  macdBonus?: number; // MACD crossover/histogram signal
+  volumeGate?: number; // Volume breakout confirmation
+  nearHighBonus?: number; // 52-week high proximity bonus
   score: number; // Weighted technical score, 0..1
 }
 
@@ -74,6 +82,8 @@ export interface TradeLevels {
   target: number;
   stopLoss: number;
   suggestedHoldingDays: number;
+  horizon: HoldingHorizon;
+  riskRewardRatio: number;
   atr: number;
 }
 
@@ -82,6 +92,7 @@ export interface ScoredStock {
   ticker: string;
   name: string;
   category: CapCategory;
+  horizon: HoldingHorizon;
   compositeScore: number; // 0..100 for display
   technical: TechnicalBreakdown;
   fundamental: FundamentalBreakdown;
@@ -102,11 +113,12 @@ export type PickStatus =
  * then updated in place by the status-check routine.
  */
 export interface LedgerEntry {
-  id: string; // `${date}:${ticker}`
+  id: string; // `${date}:${ticker}` or `${date}:${ticker}:${horizon}`
   date: string; // ISO date (YYYY-MM-DD) the pick was suggested
   ticker: string;
   name: string;
   category: CapCategory;
+  horizon?: HoldingHorizon; // Horizon mode (defaults to 'positional' if legacy)
   compositeScore: number;
   technicalScore: number;
   fundamentalScore: number;
@@ -116,6 +128,7 @@ export interface LedgerEntry {
   target: number;
   stopLoss: number;
   suggestedHoldingDays: number;
+  riskRewardRatio?: number;
   status: PickStatus;
   // Filled in when the pick resolves:
   resolvedDate?: string; // ISO date the status changed away from OPEN/STILL_OPEN
@@ -124,3 +137,4 @@ export interface LedgerEntry {
   lastCheckedDate?: string; // Last time the status-check routine touched it
   lastCheckedPrice?: number;
 }
+

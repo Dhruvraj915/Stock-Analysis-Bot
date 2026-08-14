@@ -16,7 +16,7 @@
  * ============================================================================
  */
 
-import { CapCategory, UniverseEntry } from "./types";
+import { CapCategory, HoldingHorizon, UniverseEntry } from "./types";
 
 /**
  * ----------------------------------------------------------------------------
@@ -132,30 +132,185 @@ export const UNIVERSE: Record<CapCategory, UniverseEntry[]> = {
 };
 
 /**
- * ----------------------------------------------------------------------------
- *  2. SCORING WEIGHTS
- * ----------------------------------------------------------------------------
+ * Horizon Profile definition.
  */
+export interface HorizonProfile {
+  name: HoldingHorizon;
+  displayName: string;
+  holdingRangeLabel: string;
+  historyYears: number;
+  compositeWeights: {
+    fundamental: number;
+    technical: number;
+  };
+  technicalWeights: {
+    trend: number;
+    momentum: number;
+    macd: number;
+    nearHigh: number;
+  };
+  technicalParams: {
+    smaShortPeriod: number;
+    smaLongPeriod: number;
+    momentumLookbackDays: number;
+    rsiPeriod: number;
+    rsiOverbought: number;
+    rsiOversold: number;
+    rsiPenalty: number;
+    volumeConfirmation: boolean;
+  };
+  tradeParams: {
+    atrPeriod: number;
+    supportResistanceWindowDays: number;
+    entryBandAtrMult: number;
+    targetAtrMult: number;
+    stopAtrMult: number;
+    minRiskReward: number;
+    defaultHoldingDays: number;
+    holdingDaysMin: number;
+    holdingDaysMax: number;
+    holdingDaysByCategory: Record<CapCategory, number>;
+  };
+}
+
+export const HORIZON_PROFILES: Record<HoldingHorizon, HorizonProfile> = {
+  swing: {
+    name: "swing",
+    displayName: "Swing (10–15 Days)",
+    holdingRangeLabel: "10–15 days",
+    historyYears: 2,
+    compositeWeights: {
+      fundamental: 0.30, // 30% fundamentals
+      technical: 0.70,   // 70% technicals (price action & momentum dominate)
+    },
+    technicalWeights: {
+      trend: 0.35,
+      momentum: 0.35,
+      macd: 0.20,
+      nearHigh: 0.10,
+    },
+    technicalParams: {
+      smaShortPeriod: 10,
+      smaLongPeriod: 50,
+      momentumLookbackDays: 20, // ~1 month trading days
+      rsiPeriod: 14,
+      rsiOverbought: 75,
+      rsiOversold: 28,
+      rsiPenalty: 0.15,
+      volumeConfirmation: true,
+    },
+    tradeParams: {
+      atrPeriod: 14,
+      supportResistanceWindowDays: 30,
+      entryBandAtrMult: 0.3,
+      targetAtrMult: 2.2,
+      stopAtrMult: 1.4,
+      minRiskReward: 1.2,
+      defaultHoldingDays: 14,
+      holdingDaysMin: 10,
+      holdingDaysMax: 15,
+      holdingDaysByCategory: {
+        largecap: 12,
+        midcap: 14,
+        smallcap: 15,
+      },
+    },
+  },
+  positional: {
+    name: "positional",
+    displayName: "Positional (2–3 Months)",
+    holdingRangeLabel: "2–3 months",
+    historyYears: 2,
+    compositeWeights: {
+      fundamental: 0.58, // 58% fundamentals
+      technical: 0.42,   // 42% technicals
+    },
+    technicalWeights: {
+      trend: 0.45,
+      momentum: 0.30,
+      macd: 0.15,
+      nearHigh: 0.10,
+    },
+    technicalParams: {
+      smaShortPeriod: 50,
+      smaLongPeriod: 200,
+      momentumLookbackDays: 126, // ~6 months trading days
+      rsiPeriod: 14,
+      rsiOverbought: 72,
+      rsiOversold: 28,
+      rsiPenalty: 0.15,
+      volumeConfirmation: true,
+    },
+    tradeParams: {
+      atrPeriod: 14,
+      supportResistanceWindowDays: 120,
+      entryBandAtrMult: 0.5,
+      targetAtrMult: 4.0,
+      stopAtrMult: 2.5,
+      minRiskReward: 1.4,
+      defaultHoldingDays: 90,
+      holdingDaysMin: 60,
+      holdingDaysMax: 120,
+      holdingDaysByCategory: {
+        largecap: 90,
+        midcap: 120,
+        smallcap: 150,
+      },
+    },
+  },
+  longterm: {
+    name: "longterm",
+    displayName: "Long-Term (1–2 Years)",
+    holdingRangeLabel: "1–2 years",
+    historyYears: 3,
+    compositeWeights: {
+      fundamental: 0.75, // 75% fundamentals (business quality & valuation)
+      technical: 0.25,   // 25% technicals (macro trend & golden cross)
+    },
+    technicalWeights: {
+      trend: 0.60,
+      momentum: 0.25,
+      macd: 0.10,
+      nearHigh: 0.05,
+    },
+    technicalParams: {
+      smaShortPeriod: 50,
+      smaLongPeriod: 200,
+      momentumLookbackDays: 252, // 1 year lookback
+      rsiPeriod: 14,
+      rsiOverbought: 80, // More relaxed for multi-year compounders
+      rsiOversold: 25,
+      rsiPenalty: 0.10,
+      volumeConfirmation: false,
+    },
+    tradeParams: {
+      atrPeriod: 14,
+      supportResistanceWindowDays: 365,
+      entryBandAtrMult: 0.8,
+      targetAtrMult: 8.0,
+      stopAtrMult: 4.0,
+      minRiskReward: 1.8,
+      defaultHoldingDays: 450,
+      holdingDaysMin: 365,
+      holdingDaysMax: 730,
+      holdingDaysByCategory: {
+        largecap: 365,
+        midcap: 450,
+        smallcap: 540,
+      },
+    },
+  },
+};
 
 /**
- * Composite split between fundamental and technical scores.
- * Horizon is medium-term, so fundamentals are weighted slightly heavier.
- * These MUST sum to 1.0.
+ * ----------------------------------------------------------------------------
+ *  2. DEFAULT SCORING WEIGHTS & PARAMS (Backward Compatibility)
+ * ----------------------------------------------------------------------------
  */
-export const COMPOSITE_WEIGHTS = {
-  fundamental: 0.58, // 58% fundamentals
-  technical: 0.42, // 42% technicals
-} as const;
-
-/**
- * Technical sub-weights. Trend + medium-term momentum dominate; RSI is only a
- * gate (it can trim the score for a bad entry, but never drives it up).
- * `trend` + `momentum` should sum to 1.0 (rsiGate is applied multiplicatively).
- */
-export const TECHNICAL_WEIGHTS = {
-  trend: 0.6, // Price vs 50/200 SMA + golden cross
-  momentum: 0.4, // 6-month momentum
-} as const;
+export const COMPOSITE_WEIGHTS = HORIZON_PROFILES.positional.compositeWeights;
+export const TECHNICAL_WEIGHTS = HORIZON_PROFILES.positional.technicalWeights;
+export const TECHNICAL_PARAMS = HORIZON_PROFILES.positional.technicalParams;
+export const TRADE_PARAMS = HORIZON_PROFILES.positional.tradeParams;
 
 /**
  * Fundamental sub-weights. Each of the 5 inputs is scored 0..1 then combined.
@@ -181,65 +336,13 @@ export const NEUTRAL_SCORE = 0.5;
  * ----------------------------------------------------------------------------
  *  Each metric is mapped to 0..1 using simple piecewise-linear thresholds.
  *  `good` scores ~1.0, `bad` scores ~0.0, values in between interpolate.
- *  Tune these to your own philosophy.
  */
 export const FUNDAMENTAL_CURVES = {
-  // P/E: cheaper is better, but negative earnings (loss-making) is penalized.
-  // Below `good` P/E => great; above `bad` => expensive.
   pe: { good: 15, bad: 45, negativePenalty: 0.2 },
-  // ROE (as fraction): higher is better.
   roe: { bad: 0.05, good: 0.2 },
-  // Debt/Equity (as multiple): lower is better.
   debtToEquity: { good: 0.3, bad: 1.5 },
-  // Earnings growth (as fraction): higher is better; negative is penalized.
   earningsGrowth: { bad: 0.0, good: 0.25 },
-  // Profit margin (as fraction): higher is better.
   profitMargin: { bad: 0.03, good: 0.2 },
-} as const;
-
-/**
- * ----------------------------------------------------------------------------
- *  2c. TECHNICAL SCORING PARAMETERS
- * ----------------------------------------------------------------------------
- */
-export const TECHNICAL_PARAMS = {
-  smaShortPeriod: 50, // "50-day moving average"
-  smaLongPeriod: 200, // "200-day moving average"
-  momentumLookbackDays: 126, // ~6 months of trading days
-  rsiPeriod: 14,
-  // RSI gate: entries above `overbought` or below `oversold` get a small
-  // penalty (we prefer not to chase extremes for a multi-month hold).
-  rsiOverbought: 72,
-  rsiOversold: 28,
-  rsiPenalty: 0.15, // Multiply technical score by (1 - penalty) at extremes
-} as const;
-
-/**
- * ----------------------------------------------------------------------------
- *  3. TRADE LEVELS (entry band / target / stop-loss / horizon)
- * ----------------------------------------------------------------------------
- *  Levels are built from ATR + MEDIUM-TERM (90-120 day) support/resistance,
- *  NOT short 20-30 day windows, because the intent is a multi-month hold.
- */
-export const TRADE_PARAMS = {
-  atrPeriod: 14,
-  // Medium-term window used to find support (recent low) & resistance (high).
-  supportResistanceWindowDays: 120,
-  // Entry band width around current price, in ATR multiples.
-  entryBandAtrMult: 0.5,
-  // Target distance in ATR multiples (clamped UP to medium-term resistance).
-  targetAtrMult: 4.0,
-  // Stop-loss distance in ATR multiples (clamped to medium-term support).
-  stopAtrMult: 2.5,
-  // Suggested holding period (calendar days). Configurable, defaults land in
-  // the 2-6 month range per your stated horizon. Per-category overrides let
-  // smaller/more volatile names get a slightly longer leash.
-  defaultHoldingDays: 90, // ~3 months
-  holdingDaysByCategory: {
-    largecap: 90, // ~3 months
-    midcap: 120, // ~4 months
-    smallcap: 150, // ~5 months
-  } as Record<CapCategory, number>,
 } as const;
 
 /**
@@ -249,39 +352,33 @@ export const TRADE_PARAMS = {
  */
 export const RANKING_PARAMS = {
   topPicksPerCategory: 5, // Top N per cap category => 15 total
-  // Minimum candles required to score a stock at all (need >200 for SMA200).
   minCandlesRequired: 210,
 } as const;
 
 export const DATA_PARAMS = {
-  historyYears: 2, // ~2 years of daily history
-  // Polite delay between Yahoo requests (ms). ~600ms => ~1 min for 90 tickers.
+  historyYears: 2, // Default history
   requestDelayMs: 600,
-  maxRetries: 2, // Retries per ticker on transient fetch failure
+  maxRetries: 2,
 } as const;
 
 export const LEDGER_PARAMS = {
-  // Path (relative to project root) of the JSON ledger "database".
   filePath: "data/ledger.json",
 };
 
 export const BACKTEST_PARAMS = {
-  // Sample historical entry days every N trading days (weekly ~= 5) to keep
-  // runtime reasonable across the universe.
   sampleEveryNTradingDays: 5,
   topPicksPerCategory: 5,
-  // Don't open new hypothetical trades in the final `warmupTailDays` of
-  // history — there wouldn't be enough forward data to resolve them.
   minForwardDaysToOpen: 30,
   csvOutputPath: "backtest-results.csv",
 };
 
 /**
  * ----------------------------------------------------------------------------
- *  5. DISCLAIMER (appended to every Telegram message)
+ *  5. DISCLAIMER
  * ----------------------------------------------------------------------------
  */
 export const DISCLAIMER =
   "⚠️ Heuristic research tool, NOT financial advice. Scores are " +
   "generated by a mechanical model from public data that may be delayed or " +
   "inaccurate. Do your own research and manage your own risk.";
+

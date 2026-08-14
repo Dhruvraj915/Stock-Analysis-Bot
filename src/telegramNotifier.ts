@@ -129,6 +129,11 @@ function formatPick(
   heldEntry?: LedgerEntry,
 ): string {
   const flag = p.fundamentalsMissing ? " ⚠️fund?" : "";
+  const horizonTag = p.horizon ? `[${p.horizon.toUpperCase()}] ` : "";
+  const tgtPct = ((p.levels.target - p.levels.currentPrice) / p.levels.currentPrice) * 100;
+  const slPct = ((p.levels.stopLoss - p.levels.currentPrice) / p.levels.currentPrice) * 100;
+  const rrStr = p.levels.riskRewardRatio ? ` | R:R ${p.levels.riskRewardRatio.toFixed(1)}:1` : "";
+
   let tag: string;
   if (heldEntry) {
     const age = daysBetween(heldEntry.date, dateIso);
@@ -138,14 +143,14 @@ function formatPick(
       100;
     tag = `📌 HELD day ${age}/${heldEntry.suggestedHoldingDays} (${fmtPct(sinceEntryPct)} since entry)`;
   } else {
-    tag = "🆕 NEW";
+    tag = `🆕 ${horizonTag}NEW`;
   }
   return [
     `${tag}`,
     `<b>${rank}. ${esc(p.ticker.replace(".NS", ""))}</b> — ${esc(p.name)}${flag}`,
     `   Score <b>${p.compositeScore.toFixed(1)}</b> (T ${(p.technical.score * 100).toFixed(0)} / F ${(p.fundamental.score * 100).toFixed(0)})`,
     `   Price ₹${fmt(p.levels.currentPrice)} | Entry ₹${fmt(p.levels.entryLow)}–₹${fmt(p.levels.entryHigh)}`,
-    `   🎯 Target ₹${fmt(p.levels.target)} | 🛑 SL ₹${fmt(p.levels.stopLoss)} | ⏳ ~${p.levels.suggestedHoldingDays}d`,
+    `   🎯 Target ₹${fmt(p.levels.target)} (${fmtPct(tgtPct)}) | 🛑 SL ₹${fmt(p.levels.stopLoss)} (${fmtPct(slPct)})${rrStr} | ⏳ ~${p.levels.suggestedHoldingDays}d`,
   ].join("\n");
 }
 

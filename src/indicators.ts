@@ -119,3 +119,108 @@ export function supportResistance(
 export function closesOf(candles: Candle[]): number[] {
   return candles.map((c) => c.close);
 }
+
+/**
+ * Exponential Moving Average (EMA).
+ */
+export function ema(values: number[], period: number): number | null {
+  if (period <= 0 || values.length < period) return null;
+  const k = 2 / (period + 1);
+  // Seed with SMA
+  let sum = 0;
+  for (let i = 0; i < period; i++) {
+    sum += values[i];
+  }
+  let currentEma = sum / period;
+  for (let i = period; i < values.length; i++) {
+    currentEma = values[i] * k + currentEma * (1 - k);
+  }
+  return currentEma;
+}
+
+/**
+ * MACD indicator: returns MACD line, signal line, and histogram.
+ */
+export function macd(
+  closes: number[],
+  fastPeriod = 12,
+  slowPeriod = 26,
+  signalPeriod = 9
+): { macdLine: number; signalLine: number; histogram: number } | null {
+  if (closes.length < slowPeriod + signalPeriod) return null;
+
+  // Calculate series of MACD line values to compute signal EMA
+  const kFast = 2 / (fastPeriod + 1);
+  const kSlow = 2 / (slowPeriod + 1);
+  const kSignal = 2 / (signalPeriod + 1);
+
+  // Initial SMA for fast and slow
+  let fastSum = 0;
+  for (let i = 0; i < fastPeriod; i++) fastSum += closes[i];
+  let fastEma = fastSum / fastPeriod;
+
+  let slowSum = 0;
+  for (let i = 0; i < slowPeriod; i++) slowSum += closes[i];
+  let slowEma = slowSum / slowPeriod;
+
+  // Run EMA forward until slowPeriod start
+  for (let i = fastPeriod; i < slowPeriod; i++) {
+    fastEma = closes[i] * kFast + fastEma * (1 - kFast);
+  }
+
+  const macdValues: number[] = [];
+  macdValues.push(fastEma - slowEma);
+
+  for (let i = slowPeriod; i < closes.length; i++) {
+    fastEma = closes[i] * kFast + fastEma * (1 - kFast);
+    slowEma = closes[i] * kSlow + slowEma * (1 - kSlow);
+    macdValues.push(fastEma - slowEma);
+  }
+
+  if (macdValues.length < signalPeriod) return null;
+
+  // Signal line is EMA of macdValues
+  let signalSum = 0;
+  for (let i = 0; i < signalPeriod; i++) signalSum += macdValues[i];
+  let signalEma = signalSum / signalPeriod;
+
+  for (let i = signalPeriod; i < macdValues.length; i++) {
+    signalEma = macdValues[i] * kSignal + signalEma * (1 - kSignal);
+  }
+
+  const currentMacd = macdValues[macdValues.length - 1];
+  const histogram = currentMacd - signalEma;
+
+  return { macdLine: currentMacd, signalLine: signalEma, histogram };
+}
+
+/**
+ * Volume ratio: compares recent average volume (e.g. 5 days) to baseline (e.g. 20 days).
+ */
+export function volumeRatio(
+  candles: Candle[],
+  recentPeriod = 5,
+  baselinePeriod = 20
+): number | null {
+  if (candles.length < baselinePeriod) return null;
+  const vols = candles.map((c) => c.volume);
+  const recentSum = vols.slice(-recentPeriod).reduce((a, b) => a + b, 0);
+  const baselineSum = vols.slice(-baselinePeriod).reduce((a, b) => a + b, 0);
+  const recentAvg = recentSum / recentPeriod;
+  const baselineAvg = baselineSum / baselinePeriod;
+  if (baselineAvg <= 0) return 1;
+  return recentAvg / baselineAvg;
+}
+
+/**
+ * Proximity to 52-week (or custom window) high.
+ * Returns ratio: price / high52w (e.g. 0.95 means within 5% of 52w high).
+ */
+export function nearHigh(candles: Candle[], windowDays = 252): number | null {
+  if (candles.length === 0) return null;
+  const slice = candles.slice(-windowDays);
+  const maxHigh = Math.max(...slice.map((c) => c.high));
+  const currentPrice = candles[candles.length - 1].close;
+  if (maxHigh <= 0) return null;
+  return currentPrice / maxHigh;
+}

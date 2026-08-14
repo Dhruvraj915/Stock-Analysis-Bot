@@ -204,11 +204,24 @@ check("levels satisfy stop < entryLow <= price <= entryHigh < target, all > 0", 
   assert.ok(lv.entryLow <= lv.currentPrice + 1e-9, "entryLow <= price");
   assert.ok(lv.currentPrice <= lv.entryHigh + 1e-9, "price <= entryHigh");
   assert.ok(lv.entryHigh < lv.target, "entryHigh < target");
+  assert.ok(lv.riskRewardRatio > 0, "R:R > 0");
 });
 
-check("holding period comes from category config (midcap=120)", () => {
-  const lv = computeTradeLevels(makeTrend(100, 150, 260), "midcap");
+check("holding period comes from category config (midcap=120 for positional)", () => {
+  const lv = computeTradeLevels(makeTrend(100, 150, 260), "midcap", "positional");
   assert.strictEqual(lv.suggestedHoldingDays, 120);
+});
+
+check("swing horizon trade levels use shorter holding period", () => {
+  const lv = computeTradeLevels(makeTrend(100, 150, 260), "largecap", "swing");
+  assert.strictEqual(lv.suggestedHoldingDays, 12);
+  assert.strictEqual(lv.horizon, "swing");
+});
+
+check("longterm horizon trade levels use multi-year holding period", () => {
+  const lv = computeTradeLevels(makeTrend(100, 150, 260), "largecap", "longterm");
+  assert.strictEqual(lv.suggestedHoldingDays, 365);
+  assert.strictEqual(lv.horizon, "longterm");
 });
 
 // ===========================================================================
@@ -233,8 +246,33 @@ check("uptrend beats downtrend on composite (same neutral fundamentals)", () => 
   );
 });
 
+check("longterm horizon weights fundamentals heavier than swing", () => {
+  const stockWithGreatFundamentals: StockData = {
+    ticker: "GREAT.NS",
+    name: "Great Fundamental Co",
+    category: "largecap",
+    candles: makeTrend(100, 105, 260), // mild/flat trend
+    fundamentals: {
+      peRatio: 12,
+      roe: 0.25,
+      debtToEquity: 0.2,
+      earningsGrowth: 0.3,
+      profitMargin: 0.2,
+    },
+    fundamentalsMissing: false,
+  };
+  const swingScore = scoreStock(stockWithGreatFundamentals, "swing");
+  const longTermScore = scoreStock(stockWithGreatFundamentals, "longterm");
+  // Long-term has 75% fundamental weight vs 30% for swing
+  assert.ok(
+    longTermScore.compositeScore > swingScore.compositeScore,
+    `longterm (${longTermScore.compositeScore}) should be > swing (${swingScore.compositeScore}) when fundamentals are exceptional`
+  );
+});
+
 // ===========================================================================
 //  Summary
 // ===========================================================================
 console.log(`\n${passed} passed, ${failed} failed.\n`);
 if (failed > 0) process.exit(1);
+
