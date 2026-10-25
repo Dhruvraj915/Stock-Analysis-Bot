@@ -147,7 +147,7 @@
     "stopLoss": 3883.1,
     "suggestedHoldingDays": 120,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 4344.2,
     "returnPct": -20.26
   },
@@ -167,7 +167,7 @@
     "stopLoss": 1391.2,
     "suggestedHoldingDays": 120,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 1612.7,
     "returnPct": -14.89
   },
@@ -187,7 +187,7 @@
     "stopLoss": 253.3,
     "suggestedHoldingDays": 120,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 340.9,
     "returnPct": -2.32
   },
@@ -207,7 +207,7 @@
     "stopLoss": 140.7,
     "suggestedHoldingDays": 120,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 149.89,
     "returnPct": -29.71
   },
@@ -227,7 +227,7 @@
     "stopLoss": 416.25,
     "suggestedHoldingDays": 150,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 512.85,
     "returnPct": -11.84
   },
@@ -269,7 +269,7 @@
     "stopLoss": 869.6,
     "suggestedHoldingDays": 150,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 1136.6,
     "returnPct": -8.3
   },
@@ -311,7 +311,7 @@
     "stopLoss": 1775.8,
     "suggestedHoldingDays": 150,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 2416.1,
     "returnPct": 0.3
   },
@@ -331,7 +331,7 @@
     "stopLoss": 1329,
     "suggestedHoldingDays": 150,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 1846.9,
     "returnPct": -13.21
   },
@@ -395,7 +395,7 @@
     "stopLoss": 29805,
     "suggestedHoldingDays": 120,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 33830,
     "returnPct": -16
   },
@@ -414,10 +414,12 @@
     "target": 2911.6,
     "stopLoss": 2115,
     "suggestedHoldingDays": 90,
-    "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "status": "EXPIRED_OPEN",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 2307,
-    "returnPct": -14.88
+    "returnPct": -14.88,
+    "resolvedDate": "2026-10-25",
+    "resolvedPrice": 2307
   },
   {
     "id": "2026-07-27:GODREJPROP.NS",
@@ -435,7 +437,7 @@
     "stopLoss": 1434,
     "suggestedHoldingDays": 120,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 1496.5,
     "returnPct": -28.01
   },
@@ -455,7 +457,7 @@
     "stopLoss": 304.85,
     "suggestedHoldingDays": 150,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 357,
     "returnPct": -9.55
   },
@@ -497,7 +499,7 @@
     "stopLoss": 2500,
     "suggestedHoldingDays": 150,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 4157.3,
     "returnPct": -6.77
   },
@@ -517,7 +519,7 @@
     "stopLoss": 787.9,
     "suggestedHoldingDays": 90,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 928.95,
     "returnPct": -19.15
   },
@@ -537,7 +539,7 @@
     "stopLoss": 287.7,
     "suggestedHoldingDays": 120,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 347.25,
     "returnPct": -18.24
   },
@@ -579,7 +581,7 @@
     "stopLoss": 1159.4,
     "suggestedHoldingDays": 90,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 1175,
     "returnPct": -23.7
   },
@@ -599,7 +601,7 @@
     "stopLoss": 3825,
     "suggestedHoldingDays": 90,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 4299.7,
     "returnPct": -12.98
   },
@@ -663,7 +665,7 @@
     "stopLoss": 735.2,
     "suggestedHoldingDays": 150,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 1028.8,
     "returnPct": -12.35
   },
@@ -685,7 +687,7 @@
     "suggestedHoldingDays": 90,
     "riskRewardRatio": 2.81,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 1217.5,
     "returnPct": 0.01
   },
@@ -827,7 +829,7 @@
     "suggestedHoldingDays": 120,
     "riskRewardRatio": 2.39,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 490,
     "returnPct": -2
   },
@@ -897,7 +899,7 @@
     "suggestedHoldingDays": 150,
     "riskRewardRatio": 1.53,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 416,
     "returnPct": -17.66
   },
@@ -967,7 +969,7 @@
     "suggestedHoldingDays": 150,
     "riskRewardRatio": 3.8,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 1499,
     "returnPct": -0.6
   },
@@ -989,7 +991,7 @@
     "suggestedHoldingDays": 90,
     "riskRewardRatio": 1.5,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 1153.8,
     "returnPct": 1.22
   },
@@ -1011,7 +1013,7 @@
     "suggestedHoldingDays": 90,
     "riskRewardRatio": 1.47,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 958.6,
     "returnPct": -8.96
   },
@@ -1033,7 +1035,7 @@
     "suggestedHoldingDays": 90,
     "riskRewardRatio": 5.87,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 397.45,
     "returnPct": -0.64
   },
@@ -1079,7 +1081,7 @@
     "suggestedHoldingDays": 150,
     "riskRewardRatio": 1.56,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 1646.9,
     "returnPct": -7.77
   },
@@ -1125,7 +1127,7 @@
     "suggestedHoldingDays": 90,
     "riskRewardRatio": 2.37,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 1892.1,
     "returnPct": 4.43
   },
@@ -1147,7 +1149,7 @@
     "suggestedHoldingDays": 150,
     "riskRewardRatio": 1.41,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 1114.1,
     "returnPct": -11.66
   },
@@ -1193,7 +1195,7 @@
     "suggestedHoldingDays": 150,
     "riskRewardRatio": 1.42,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 3390,
     "returnPct": -3.37
   },
@@ -1215,7 +1217,7 @@
     "suggestedHoldingDays": 120,
     "riskRewardRatio": 7.19,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 578.8,
     "returnPct": 27.81
   },
@@ -1261,7 +1263,7 @@
     "suggestedHoldingDays": 90,
     "riskRewardRatio": 1.76,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 2530,
     "returnPct": 14.58
   },
@@ -1307,7 +1309,7 @@
     "suggestedHoldingDays": 90,
     "riskRewardRatio": 3.65,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 692.8,
     "returnPct": -3.31
   },
@@ -1353,7 +1355,7 @@
     "suggestedHoldingDays": 120,
     "riskRewardRatio": 2.78,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 2109.8,
     "returnPct": -0.71
   },
@@ -1375,7 +1377,7 @@
     "suggestedHoldingDays": 150,
     "riskRewardRatio": 1.62,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 650,
     "returnPct": -7.89
   },
@@ -1397,7 +1399,7 @@
     "suggestedHoldingDays": 150,
     "riskRewardRatio": 1.5,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 189.4,
     "returnPct": -8.6
   },
@@ -1467,7 +1469,7 @@
     "suggestedHoldingDays": 150,
     "riskRewardRatio": 1.75,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 1188.5,
     "returnPct": -5.82
   },
@@ -1537,7 +1539,7 @@
     "suggestedHoldingDays": 120,
     "riskRewardRatio": 5.79,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 1928.9,
     "returnPct": -0.41
   },
@@ -1583,7 +1585,7 @@
     "suggestedHoldingDays": 150,
     "riskRewardRatio": 4.18,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 1056.3,
     "returnPct": -1.69
   },
@@ -1605,7 +1607,7 @@
     "suggestedHoldingDays": 90,
     "riskRewardRatio": 2.12,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 1185.5,
     "returnPct": -1.24
   },
@@ -1627,7 +1629,7 @@
     "suggestedHoldingDays": 90,
     "riskRewardRatio": 2.1,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 1748,
     "returnPct": -0.61
   },
@@ -1649,7 +1651,7 @@
     "suggestedHoldingDays": 120,
     "riskRewardRatio": 1.63,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 1654.4,
     "returnPct": -5.07
   },
@@ -1671,7 +1673,7 @@
     "suggestedHoldingDays": 120,
     "riskRewardRatio": 3.61,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 2310,
     "returnPct": -0.88
   },
@@ -1693,7 +1695,7 @@
     "suggestedHoldingDays": 150,
     "riskRewardRatio": 3.4,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-23",
+    "lastCheckedDate": "2026-10-25",
     "lastCheckedPrice": 532.7,
     "returnPct": -1.22
   }
