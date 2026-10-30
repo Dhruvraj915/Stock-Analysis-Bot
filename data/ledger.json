@@ -147,9 +147,9 @@
     "stopLoss": 3883.1,
     "suggestedHoldingDays": 120,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 4515.2,
-    "returnPct": -17.12
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 4452.6,
+    "returnPct": -18.27
   },
   {
     "id": "2026-07-18:OBEROIRLTY.NS",
@@ -167,9 +167,9 @@
     "stopLoss": 1391.2,
     "suggestedHoldingDays": 120,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 1640,
-    "returnPct": -13.45
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 1646.5,
+    "returnPct": -13.1
   },
   {
     "id": "2026-07-18:FEDERALBNK.NS",
@@ -187,9 +187,9 @@
     "stopLoss": 253.3,
     "suggestedHoldingDays": 120,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 347.75,
-    "returnPct": -0.36
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 339.7,
+    "returnPct": -2.66
   },
   {
     "id": "2026-07-18:BANDHANBNK.NS",
@@ -207,9 +207,9 @@
     "stopLoss": 140.7,
     "suggestedHoldingDays": 120,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 161.84,
-    "returnPct": -24.11
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 154.33,
+    "returnPct": -27.63
   },
   {
     "id": "2026-07-18:ELGIEQUIP.NS",
@@ -227,9 +227,9 @@
     "stopLoss": 416.25,
     "suggestedHoldingDays": 150,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 511.25,
-    "returnPct": -12.11
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 509.05,
+    "returnPct": -12.49
   },
   {
     "id": "2026-07-18:SHILPAMED.NS",
@@ -269,9 +269,9 @@
     "stopLoss": 869.6,
     "suggestedHoldingDays": 150,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 1102.1,
-    "returnPct": -11.09
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 1109.2,
+    "returnPct": -10.51
   },
   {
     "id": "2026-07-18:RADICO.NS",
@@ -311,7 +311,7 @@
     "stopLoss": 1775.8,
     "suggestedHoldingDays": 150,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
+    "lastCheckedDate": "2026-10-30",
     "lastCheckedPrice": 2416.1,
     "returnPct": 0.3
   },
@@ -331,9 +331,9 @@
     "stopLoss": 1329,
     "suggestedHoldingDays": 150,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 1955.2,
-    "returnPct": -8.12
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 1878.6,
+    "returnPct": -11.72
   },
   {
     "id": "2026-07-22:ICICIBANK.NS",
@@ -395,9 +395,9 @@
     "stopLoss": 29805,
     "suggestedHoldingDays": 120,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 34150,
-    "returnPct": -15.21
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 34500,
+    "returnPct": -14.34
   },
   {
     "id": "2026-07-27:ASIANPAINT.NS",
@@ -437,9 +437,9 @@
     "stopLoss": 1434,
     "suggestedHoldingDays": 120,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 1600,
-    "returnPct": -23.03
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 1568,
+    "returnPct": -24.57
   },
   {
     "id": "2026-07-28:JKPAPER.NS",
@@ -457,9 +457,9 @@
     "stopLoss": 304.85,
     "suggestedHoldingDays": 150,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 381.6,
-    "returnPct": -3.32
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 370.1,
+    "returnPct": -6.23
   },
   {
     "id": "2026-07-29:CHAMBLFERT.NS",
@@ -499,9 +499,9 @@
     "stopLoss": 2500,
     "suggestedHoldingDays": 150,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 4235,
-    "returnPct": -5.03
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 4086.7,
+    "returnPct": -8.35
   },
   {
     "id": "2026-08-04:BAJFINANCE.NS",
@@ -519,9 +519,9 @@
     "stopLoss": 787.9,
     "suggestedHoldingDays": 90,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 938.9,
-    "returnPct": -18.29
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 939.1,
+    "returnPct": -18.27
   },
   {
     "id": "2026-08-05:ABCAPITAL.NS",
@@ -539,9 +539,9 @@
     "stopLoss": 287.7,
     "suggestedHoldingDays": 120,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 358.35,
-    "returnPct": -15.62
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 369.45,
+    "returnPct": -13.01
   },
   {
     "id": "2026-08-05:SHILPAMED.NS",
@@ -581,9 +581,9 @@
     "stopLoss": 1159.4,
     "suggestedHoldingDays": 90,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 1188.6,
-    "returnPct": -22.82
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 1167,
+    "returnPct": -24.22
   },
   {
     "id": "2026-08-07:TITAN.NS",
@@ -601,9 +601,9 @@
     "stopLoss": 3825,
     "suggestedHoldingDays": 90,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 4434,
-    "returnPct": -10.26
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 4436.5,
+    "returnPct": -10.21
   },
   {
     "id": "2026-08-07:COFORGE.NS",
@@ -665,9 +665,9 @@
     "stopLoss": 735.2,
     "suggestedHoldingDays": 150,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 1086.2,
-    "returnPct": -7.46
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 1030.3,
+    "returnPct": -12.23
   },
   {
     "id": "2026-08-14:AXISBANK.NS:positional",
@@ -687,9 +687,9 @@
     "suggestedHoldingDays": 90,
     "riskRewardRatio": 2.81,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 1225,
-    "returnPct": 0.62
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 1217,
+    "returnPct": -0.03
   },
   {
     "id": "2026-08-14:ONGC.NS:positional",
@@ -829,9 +829,9 @@
     "suggestedHoldingDays": 120,
     "riskRewardRatio": 2.39,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 514,
-    "returnPct": 2.8
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 493.7,
+    "returnPct": -1.26
   },
   {
     "id": "2026-08-14:CROMPTON.NS:positional",
@@ -899,9 +899,9 @@
     "suggestedHoldingDays": 150,
     "riskRewardRatio": 1.53,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 452.6,
-    "returnPct": -10.42
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 438.65,
+    "returnPct": -13.18
   },
   {
     "id": "2026-08-14:IRCTC.NS:positional",
@@ -969,9 +969,9 @@
     "suggestedHoldingDays": 150,
     "riskRewardRatio": 3.8,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 1673,
-    "returnPct": 10.94
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 1627.9,
+    "returnPct": 7.95
   },
   {
     "id": "2026-08-17:INFY.NS:positional",
@@ -991,9 +991,9 @@
     "suggestedHoldingDays": 90,
     "riskRewardRatio": 1.5,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 1146.5,
-    "returnPct": 0.58
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 1185,
+    "returnPct": 3.96
   },
   {
     "id": "2026-08-18:SBIN.NS:positional",
@@ -1013,9 +1013,9 @@
     "suggestedHoldingDays": 90,
     "riskRewardRatio": 1.47,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 971.9,
-    "returnPct": -7.7
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 961.85,
+    "returnPct": -8.66
   },
   {
     "id": "2026-08-19:COALINDIA.NS:positional",
@@ -1035,9 +1035,9 @@
     "suggestedHoldingDays": 90,
     "riskRewardRatio": 5.87,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 393.1,
-    "returnPct": -1.72
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 389,
+    "returnPct": -2.75
   },
   {
     "id": "2026-08-19:TEAMLEASE.NS:positional",
@@ -1081,9 +1081,9 @@
     "suggestedHoldingDays": 150,
     "riskRewardRatio": 1.56,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 1714.5,
-    "returnPct": -3.99
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 1720.2,
+    "returnPct": -3.67
   },
   {
     "id": "2026-08-28:TATASTEEL.NS:positional",
@@ -1127,9 +1127,9 @@
     "suggestedHoldingDays": 90,
     "riskRewardRatio": 2.37,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 1972.1,
-    "returnPct": 8.84
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 1973.7,
+    "returnPct": 8.93
   },
   {
     "id": "2026-08-31:AAVAS.NS:positional",
@@ -1149,9 +1149,9 @@
     "suggestedHoldingDays": 150,
     "riskRewardRatio": 1.41,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 1111.6,
-    "returnPct": -11.86
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 1062.9,
+    "returnPct": -15.72
   },
   {
     "id": "2026-09-01:GRSE.NS:positional",
@@ -1195,9 +1195,9 @@
     "suggestedHoldingDays": 150,
     "riskRewardRatio": 1.42,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 3210,
-    "returnPct": -8.5
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 3150,
+    "returnPct": -10.21
   },
   {
     "id": "2026-09-07:SUNTV.NS:positional",
@@ -1217,9 +1217,9 @@
     "suggestedHoldingDays": 120,
     "riskRewardRatio": 7.19,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 619.9,
-    "returnPct": 36.89
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 607.55,
+    "returnPct": 34.16
   },
   {
     "id": "2026-09-07:KEI.NS:positional",
@@ -1263,9 +1263,9 @@
     "suggestedHoldingDays": 90,
     "riskRewardRatio": 1.76,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 2478,
-    "returnPct": 12.23
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 2502.6,
+    "returnPct": 13.34
   },
   {
     "id": "2026-09-10:LUPIN.NS:positional",
@@ -1357,9 +1357,9 @@
     "suggestedHoldingDays": 120,
     "riskRewardRatio": 2.78,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 2099.3,
-    "returnPct": -1.2
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 2072.6,
+    "returnPct": -2.46
   },
   {
     "id": "2026-09-16:CAMS.NS:positional",
@@ -1379,9 +1379,9 @@
     "suggestedHoldingDays": 150,
     "riskRewardRatio": 1.62,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 696.95,
-    "returnPct": -1.24
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 653.6,
+    "returnPct": -7.38
   },
   {
     "id": "2026-09-18:RITES.NS:positional",
@@ -1401,9 +1401,9 @@
     "suggestedHoldingDays": 150,
     "riskRewardRatio": 1.5,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 194.81,
-    "returnPct": -5.99
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 188.28,
+    "returnPct": -9.14
   },
   {
     "id": "2026-09-22:MPHASIS.NS:positional",
@@ -1471,9 +1471,9 @@
     "suggestedHoldingDays": 150,
     "riskRewardRatio": 1.75,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 1282,
-    "returnPct": 1.59
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 1263,
+    "returnPct": 0.09
   },
   {
     "id": "2026-09-29:VGUARD.NS:positional",
@@ -1541,9 +1541,9 @@
     "suggestedHoldingDays": 120,
     "riskRewardRatio": 5.79,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 1989.9,
-    "returnPct": 2.74
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 2011,
+    "returnPct": 3.83
   },
   {
     "id": "2026-10-08:MAHSEAMLES.NS:positional",
@@ -1587,9 +1587,9 @@
     "suggestedHoldingDays": 150,
     "riskRewardRatio": 4.18,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 1039.6,
-    "returnPct": -3.25
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 1080.4,
+    "returnPct": 0.55
   },
   {
     "id": "2026-10-15:JSWSTEEL.NS:positional",
@@ -1609,9 +1609,9 @@
     "suggestedHoldingDays": 90,
     "riskRewardRatio": 2.12,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 1255.4,
-    "returnPct": 4.58
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 1246,
+    "returnPct": 3.8
   },
   {
     "id": "2026-10-16:SUNPHARMA.NS:positional",
@@ -1631,9 +1631,9 @@
     "suggestedHoldingDays": 90,
     "riskRewardRatio": 2.1,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 1761,
-    "returnPct": 0.13
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 1777.7,
+    "returnPct": 1.07
   },
   {
     "id": "2026-10-16:TATACOMM.NS:positional",
@@ -1653,9 +1653,9 @@
     "suggestedHoldingDays": 120,
     "riskRewardRatio": 1.63,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 1709.4,
-    "returnPct": -1.92
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 1675.4,
+    "returnPct": -3.87
   },
   {
     "id": "2026-10-22:SRF.NS:positional",
@@ -1675,9 +1675,9 @@
     "suggestedHoldingDays": 120,
     "riskRewardRatio": 3.61,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 2358.6,
-    "returnPct": 1.2
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 2335.5,
+    "returnPct": 0.21
   },
   {
     "id": "2026-10-22:MAHSEAMLES.NS:positional",
@@ -1697,9 +1697,9 @@
     "suggestedHoldingDays": 150,
     "riskRewardRatio": 3.4,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 544.85,
-    "returnPct": 1.03
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 538.35,
+    "returnPct": -0.18
   },
   {
     "id": "2026-10-26:ONGC.NS:positional",
@@ -1719,9 +1719,9 @@
     "suggestedHoldingDays": 90,
     "riskRewardRatio": 7.72,
     "status": "STILL_OPEN",
-    "lastCheckedDate": "2026-10-29",
-    "lastCheckedPrice": 225.79,
-    "returnPct": -1.16
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 225.39,
+    "returnPct": -1.34
   },
   {
     "id": "2026-10-29:LT.NS:positional",
@@ -1740,6 +1740,28 @@
     "stopLoss": 3592.9,
     "suggestedHoldingDays": 90,
     "riskRewardRatio": 1.78,
+    "status": "STILL_OPEN",
+    "lastCheckedDate": "2026-10-30",
+    "lastCheckedPrice": 3871.7,
+    "returnPct": 0.9
+  },
+  {
+    "id": "2026-10-30:VGUARD.NS:positional",
+    "date": "2026-10-30",
+    "ticker": "VGUARD.NS",
+    "name": "V-Guard Industries",
+    "category": "smallcap",
+    "horizon": "positional",
+    "compositeScore": 52.8,
+    "technicalScore": 24.7,
+    "fundamentalScore": 73.2,
+    "entryLow": 274.41,
+    "entryHigh": 285.99,
+    "entryReference": 280.2,
+    "target": 350,
+    "stopLoss": 251.25,
+    "suggestedHoldingDays": 150,
+    "riskRewardRatio": 2.41,
     "status": "OPEN"
   }
 ]
